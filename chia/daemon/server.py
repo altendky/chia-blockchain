@@ -833,6 +833,7 @@ async def kill_process(
 async def kill_service(
     root_path: Path, services: Dict[str, subprocess.Popen], service_name: str, delay_before_kill: int = 15
 ) -> bool:
+    raise Exception('altendky-exc: {}'.format(services))
     process = services.get(service_name)
     if process is None:
         return False
