@@ -53,6 +53,12 @@ class ProofOfSpace(Streamable):
         plot_id: bytes32 = self.get_plot_id()
         new_challenge: bytes32 = ProofOfSpace.calculate_pos_challenge(plot_id, original_challenge_hash, signage_point)
 
+        log.error(f"plot_id={plot_id!r}")
+        log.error(f"original_challenge_hash={original_challenge_hash!r}")
+        log.error(f"signage_point={signage_point!r}")
+        log.error(f"new_challenge={new_challenge!r}")
+        log.error(f"new_challenge == self.challenge: {new_challenge == self.challenge}")
+
         if new_challenge != self.challenge:
             log.error("New challenge is not challenge")
             return None
