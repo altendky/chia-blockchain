@@ -57,6 +57,7 @@ class ProofOfSpace(Streamable):
         log.error(f"original_challenge_hash={original_challenge_hash!r}")
         log.error(f"signage_point={signage_point!r}")
         log.error(f"new_challenge={new_challenge!r}")
+        log.error(f"self.challenge={self.challenge!r}")
         log.error(f"new_challenge == self.challenge: {new_challenge == self.challenge}")
 
         if new_challenge != self.challenge:
