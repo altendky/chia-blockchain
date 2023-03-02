@@ -54,11 +54,24 @@ jobs:
 
           github = json.loads(os.environ["GITHUB_CONTEXT"])
           body = os.environ["CHIA_COMMENT_TRIGGER_BODY"].strip()
-          first_line = body[:body.find("\n")]
-          command, mode = [segment.strip() for segment in first_line.split(":")]
+          newline_index = body.find("\n")
+          if newline_index == -1:
+              first_line = body
+          else:
+              first_line = body[:newline_index]
+
+          split = first_line.split(":")
+
+          error_text = f"comment does not match: {first_line}"
+
+          if len(split) != 2:
+              print(error_text)
+              sys.exit(0)
+
+          command, mode = [segment.strip() for segment in split]
 
           if command != "matrix mode":
-              print(f"comment does not match: {first_line}")
+              print(error_text)
               sys.exit(0)
 
           print("comment matches")
@@ -72,7 +85,7 @@ jobs:
               "--ref",
               f"refs/pull/{pull_number}/merged",
               "--field",
-              f"matrix_mode={matrix_mode}",
+              f"matrix_mode={mode}",
           ]
           print(f"about to run: {command}")
           subprocess.run(command, check=True)
